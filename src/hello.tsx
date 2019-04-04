@@ -1,20 +1,29 @@
-//import * as React from 'react'
-import React, {useRef, useState, useEffect} from 'react'
+import React, {useState, useMemo} from 'react'
 
 export default function Hello() {
-  const [value, setValue] = useState('')
-  const messageRef = useRef<HTMLDivElement>(null);
+  const [willUseMemo, setWillUseMemo] = useState(true)
+  const [count, setCount] = useState(0)
 
-  useEffect(() => {
-    const content = messageRef.current!.textContent;
-    console.log(content)
-  }, [value])
+  function slowMessage() {
+    const start = Date.now()
+    while (Date.now() - start < 1000) {
+    }
+    return 'computed message ' + Date.now();
+  }
+
+  const memoHello = useMemo(() => {
+    return slowMessage()
+  }, [])
 
   return <div>
-    <h1>Hello React</h1>
+    <h1>Hello useMemo</h1>
     <div>
-      <input type='text' value={value} onChange={event => setValue(event.currentTarget.value)}/>
-      <div ref={messageRef}>Hello, {value}</div>
+      <label><input type='checkbox' checked={willUseMemo}
+                    onChange={event => setWillUseMemo(event.currentTarget.checked)}/>useMemo</label>
+    </div>
+    <div>
+      {willUseMemo ? memoHello : slowMessage()}
+      <button onClick={() => setCount(pre => pre + 1)}>Increase {count}</button>
     </div>
   </div>
 };

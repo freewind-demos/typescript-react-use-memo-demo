@@ -1,7 +1,9 @@
-TypeScript React "useRef" Demo
+TypeScript React "useMemo" Demo
 =================================
 
-使用`useRef`可以让我们使用const来持有一个可能会发生变化的`ref`，并使用`.current`拿到当前最新的element
+`useMemo`可以缓存一些需要复杂计算的值，提高性能。
+
+仅当第二个参数的数组中的数据发生变化的时候，才需要重新计算。
 
 ```
 npm install
